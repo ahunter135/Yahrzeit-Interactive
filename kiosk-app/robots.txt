@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /.git
+Allow: /
+
+Sitemap: https://www.yahrzeitinteractive.com/yikiosk/sitemap.xml

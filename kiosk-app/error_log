@@ -1,0 +1,12 @@
+[28-Nov-2022 17:24:24 UTC] PHP Warning:  Use of undefined constant HTTP_HOST - assumed 'HTTP_HOST' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/index.php on line 81
+[28-Nov-2022 17:24:24 UTC] PHP Warning:  Use of undefined constant REQUEST_URI - assumed 'REQUEST_URI' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/index.php on line 81
+[28-Nov-2022 17:24:27 UTC] PHP Warning:  Use of undefined constant HTTP_HOST - assumed 'HTTP_HOST' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/index.php on line 81
+[28-Nov-2022 17:24:27 UTC] PHP Warning:  Use of undefined constant REQUEST_URI - assumed 'REQUEST_URI' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/index.php on line 81
+[28-Nov-2022 17:30:12 UTC] PHP Warning:  Use of undefined constant HTTP_HOST - assumed 'HTTP_HOST' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/test.php on line 81
+[28-Nov-2022 17:30:12 UTC] PHP Warning:  Use of undefined constant REQUEST_URI - assumed 'REQUEST_URI' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/test.php on line 81
+[28-Nov-2022 17:30:14 UTC] PHP Warning:  Use of undefined constant HTTP_HOST - assumed 'HTTP_HOST' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/test.php on line 81
+[28-Nov-2022 17:30:14 UTC] PHP Warning:  Use of undefined constant REQUEST_URI - assumed 'REQUEST_URI' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/test.php on line 81
+[28-Nov-2022 17:32:11 UTC] PHP Warning:  Use of undefined constant HTTP_HOST - assumed 'HTTP_HOST' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/test.php on line 81
+[28-Nov-2022 17:32:11 UTC] PHP Warning:  Use of undefined constant REQUEST_URI - assumed 'REQUEST_URI' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/test.php on line 81
+[28-Nov-2022 17:32:14 UTC] PHP Warning:  Use of undefined constant HTTP_HOST - assumed 'HTTP_HOST' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/index.php on line 81
+[28-Nov-2022 17:32:14 UTC] PHP Warning:  Use of undefined constant REQUEST_URI - assumed 'REQUEST_URI' (this will throw an Error in a future version of PHP) in /home/yiadmin/public_html/yikiosk/index.php on line 81
