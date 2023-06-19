@@ -17,8 +17,8 @@ const startup = async function(request, sender) {
     // NOTE: The chrome.enterprise.deviceAttributes only works if two conditions are met:
     // 1. The device is running ChromeOS
     // 2. The extension is pre-installed by policy
-    deviceData.deviceAssetId = await chrome.enterprise.deviceAttributes.getDeviceAssetId();
-    deviceData.deviceSerialNumber = await chrome.enterprise.deviceAttributes.getDeviceSerialNumber();
+    //deviceData.deviceAssetId = await chrome.enterprise.deviceAttributes.getDeviceAssetId();
+    //deviceData.deviceSerialNumber = await chrome.enterprise.deviceAttributes.getDeviceSerialNumber();
 
     if (!deviceData.deviceAssetId || !deviceData.deviceSerialNumber) {
         return { deviceData: undefined, errorMessage: 'TODO: Handle errors cooler' };
