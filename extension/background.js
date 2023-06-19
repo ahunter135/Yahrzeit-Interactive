@@ -68,12 +68,13 @@ function importStuff() {
 
 let { restartDevice, startup } = importStuff();*/
 
-chrome.runtime.onMessageExternal.addListener(
+chrome.runtime.onMessage.addListener(
   /**
     @summary Function responsible for listening to messages from the PWA.
     @callback sendResponse Callback with a single parameter. A response object or undefined
   */
   async function(request, sender, sendResponse) {
+    console.log(request);
     let res = undefined;
 
     if (request.methodName === 'startup') {
@@ -84,5 +85,3 @@ chrome.runtime.onMessageExternal.addListener(
     sendResponse(res);
   }
 );
-
-startup(undefined, undefined).then(res => console.log({ res }))
