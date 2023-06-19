@@ -1,5 +1,3 @@
-import { restartDevice, startup } from './scripts/messages';
-
 /* Can maybe use some of this later, but I'm going to start from scratch right now
 
 
@@ -60,6 +58,16 @@ chrome.tabs.onCreated.addListener(async tab => {
   //await destroyTabs(url)
 })
 */
+
+// I don't think I need this
+/*const messageSrc = chrome.runtime.getURL("./scripts/messages.js");
+
+function importStuff() {
+  return importScripts(messageSrc);
+};
+
+let { restartDevice, startup } = importStuff();*/
+
 
 chrome.runtime.onMessageExternal.addListener(
   /**

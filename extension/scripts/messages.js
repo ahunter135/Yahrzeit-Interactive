@@ -3,12 +3,12 @@
     message listener
 */
 
-export const restartDevice = async function(request, sender) {
+const restartDevice = async function(request, sender) {
     chrome.runtime.restart();
     return undefined;
 }
 
-export const startup = async function(request, sender) {
+const startup = async function(request, sender) {
     const deviceData = {
         deviceAssetId: undefined,
         deviceSerialNumber: undefined
