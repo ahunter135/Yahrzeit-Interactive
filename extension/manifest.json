@@ -12,7 +12,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["tabs", "activeTab", "enterprise.deviceAttributes", "storage"],
+  "permissions": ["tabs", "activeTab", "storage"],
   "web_accessible_resources": [{
     "matches": ["<all_urls>"],
     "resources": ["scripts/messages.js"]
