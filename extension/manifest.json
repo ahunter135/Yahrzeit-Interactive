@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Yahrzeit Interactive Kiosk Extension",
-  "version": "0.1",
+  "version": "2.0",
   "description": "Get's asset id for enterprise progressive web app (PWA)",
 
   "icons": {
