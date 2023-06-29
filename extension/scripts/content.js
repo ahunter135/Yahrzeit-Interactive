@@ -17,7 +17,14 @@
  * should contain the deviceAssetId and deviceSerialNumber
  */
 const onKioskPWAStartup = async function() {
-  chrome.runtime.sendMessage({ methodName: 'startup' }, response => { console.log(response) });
+  alert('PWA has started up! Sending message to extension');
+
+  chrome.runtime.sendMessage({ methodName: 'startup' }, response => { 
+    console.log(response);
+    alert(`Device Asset ID: ${response.deviceAssetId}\nDevice Serial Number: ${response.deviceSerialNumber}`);
+    document.querySelector('.text-center').innerHTML = `Device Asset ID: ${response.deviceAssetId}<br>Device Serial Number: ${response.deviceSerialNumber}`;
+    document.createElement('h1').innerHTML = `Device Asset ID: ${response.deviceAssetId}<br>Device Serial Number: ${response.deviceSerialNumber}`;
+  });
   setRestartDeviceTimeout();
   
   chrome.runtime.sendMessage({ methodName: "log", message: "Ran startup." }, response => { console.log(response) });

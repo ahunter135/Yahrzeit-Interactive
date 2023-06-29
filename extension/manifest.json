@@ -12,11 +12,14 @@
   "offline_enabled": true,
   "content_scripts": [
     {
-      "matches": ["https://www.google.com/*"],
+      "matches": ["https://www.google.com/*", "https://www.yahrzeitinteractive.com/*"],
       "js": ["scripts/content.js"],
       "run_at": "document_idle"
     }
   ],
+  "externally_connectable": {
+    "matches": ["https://www.google.com/*", "https://www.yahrzeitinteractive.com/*"]
+  },
   "background": {
     "service_worker": "background.js"
   },

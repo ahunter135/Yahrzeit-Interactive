@@ -26,9 +26,9 @@ const restartDevice = async function(request, sender) {
  */
 const startup = async function(request, sender) {
   // Can only run startUp if the extension has the enterprise.deviceAttributes permission
-  if (!(await chrome.permissions.contains({ permissions: ['enterprise.deviceAttributes'] }))) {
+  /*if (!(await chrome.permissions.contains({ permissions: ['enterprise.deviceAttributes'] }))) {
     throw new Error("The extension does not have the enterprise.deviceAttributes permission");
-  }
+  }*/
 
   const deviceData = {
       deviceAssetId: undefined,
@@ -38,8 +38,12 @@ const startup = async function(request, sender) {
   // NOTE: The chrome.enterprise.deviceAttributes only works if two conditions are met:
   // 1. The device is running ChromeOS
   // 2. The extension is pre-installed by policy
-  deviceData.deviceAssetId = await chrome.enterprise.deviceAttributes.getDeviceAssetId();
-  deviceData.deviceSerialNumber = await chrome.enterprise.deviceAttributes.getDeviceSerialNumber();
+  try {
+    deviceData.deviceAssetId = await chrome.enterprise.deviceAttributes.getDeviceAssetId();
+    deviceData.deviceSerialNumber = await chrome.enterprise.deviceAttributes.getDeviceSerialNumber();
+  } catch (err) {
+      return { deviceData: undefined, errorMessage: err.message };
+  }
 
   if (!deviceData.deviceAssetId || !deviceData.deviceSerialNumber) {
       return { deviceData: undefined, errorMessage: 'deviceAssetId and/or deviceSerialNumber not found through chrome API' };
