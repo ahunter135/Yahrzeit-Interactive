@@ -20,14 +20,23 @@ const onKioskPWAStartup = async function() {
   alert('PWA has started up! Sending message to extension');
 
   chrome.runtime.sendMessage({ methodName: 'startup' }, response => { 
-    console.log(response);
-    alert(`Device Asset ID: ${response.deviceAssetId}\nDevice Serial Number: ${response.deviceSerialNumber}`);
-    document.querySelector('.text-center').innerHTML = `Device Asset ID: ${response.deviceAssetId}<br>Device Serial Number: ${response.deviceSerialNumber}`;
-    document.createElement('h1').innerHTML = `Device Asset ID: ${response.deviceAssetId}<br>Device Serial Number: ${response.deviceSerialNumber}`;
+    if (response.errorMessage) {
+      alert(response.errorMessage);
+      return;
+    }
+    if (!response.deviceData || !response.deviceData.deviceAssetId || !response.deviceData.deviceSerialNumber) {
+      alert('deviceAssetId and/or deviceSerialNumber not found through chrome API');
+      return;
+    }
+    alert('device asset id: ' + response.deviceData.deviceAssetId + '\ndevice serial number: ' + response.deviceData.deviceSerialNumber);
+    const value = document.createElement('h1').innerHTML = `Device Asset ID: ${response.deviceData.deviceAssetId}<br>Device Serial Number: ${response.deviceData.deviceSerialNumber}`;
+    const test = document.createElement('h1').innerHTML = "Does this work??????";
+    document.body.appendChild(value);
+    document.body.appendChild(test);
   });
-  setRestartDeviceTimeout();
+  //setRestartDeviceTimeout();
   
-  chrome.runtime.sendMessage({ methodName: "log", message: "Ran startup." }, response => { console.log(response) });
+  chrome.runtime.sendMessage({ methodName: "log", message: "Ran startup." }, response => { alert(response) });
 }
 
 /**
