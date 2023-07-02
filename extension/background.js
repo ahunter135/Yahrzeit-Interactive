@@ -31,8 +31,8 @@ const startup = async function(request, sender) {
   }*/
 
   const deviceData = {
-      deviceAssetId: undefined,
-      deviceSerialNumber: undefined
+    deviceAssetId: undefined,
+    deviceSerialNumber: undefined
   };
 
   // NOTE: The chrome.enterprise.deviceAttributes only works if two conditions are met:
@@ -42,7 +42,7 @@ const startup = async function(request, sender) {
     deviceData.deviceAssetId = await chrome.enterprise.deviceAttributes.getDeviceAssetId();
     deviceData.deviceSerialNumber = await chrome.enterprise.deviceAttributes.getDeviceSerialNumber();
   } catch (err) {
-      return { deviceData: undefined, errorMessage: err.message };
+    return { deviceData: undefined, errorMessage: err };
   }
 
   if (!deviceData.deviceAssetId || !deviceData.deviceSerialNumber) {
