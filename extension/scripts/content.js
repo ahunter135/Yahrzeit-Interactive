@@ -21,32 +21,26 @@
 
         chrome.runtime.sendMessage({ methodName: 'startup' }, response => {  });
         //setRestartDeviceTimeout();
+        chrome.runtime.sendMessage({ methodName: 'restartDevice' }, response => {  });
 
-        //chrome.runtime.sendMessage({ methodName: "log", message: "Ran startup." }, response => { alert(response) });
         alert('End of onKioskPWAStartup');
     }
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        console.log(request);
-        alert('In callback from extension. Response:' + request);
-        if (!request.deviceData) {
-            alert('deviceData is undefined.');
-            if (request.errorMessage) alert(request.errorMessage);
-            return;
+        if (request.methodName == 'deviceAssetIdCallback') {
+            if (request && request.assetId) alert(`Received deviceAssetIdCallback: ${request.assetId}`);
+            if (request && request.errorMessage) alert(`Received deviceAssetIdCallback error: ${request.errorMessage}`);
+            if (!request) alert('Received deviceAssetIdCallback with no request');
+        } else if (request.methodName == 'deviceSerialNumberCallback') {
+            if (request && request.serialNumber) alert(`Received deviceSerialNumberCallback: ${request.serialNumber}`);
+            if (request && request.errorMessage) alert(`Received deviceSerialNumberCallback error: ${request.errorMessage}`);
+            if (!request) alert('Received deviceSerialNumberCallback with no request');
+        } else if (request.methodName == 'restartCallback') {
+            if (request && request.errorMessage) alert(`Received restartCallback error: ${request.errorMessage}`);
+            else if (request && !request.errorMessage) alert(`Received restartCallback. Seems to work`);
+            if (!request) alert('Received restartCallback with no request');
         }
-        if (!request.deviceData.deviceAssetId || !request.deviceData.deviceSerialNumber) {
-            alert('deviceAssetId and/or deviceSerialNumber not found through chrome API');
-            alert('Response.deviceData: ' + request.deviceData);
-            alert(`Response.deviceData.deviceAssetId: ${request.deviceData.deviceAssetId}`);
-            alert(`Response.deviceData.deviceSerialNumber: ${request.deviceData.deviceSerialNumber}`);
-            return;
-        }
-        if (request.errorMessage) {
-            alert(`Error: ${request.errorMessage}`);
-        }
-        alert('device asset id: ' + request.deviceData.deviceAssetId + '\ndevice serial number: ' + request.deviceData.deviceSerialNumber);
-
     }
 );
 

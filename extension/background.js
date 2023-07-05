@@ -6,17 +6,6 @@
 
 
 
-    /**
-    * @description Restarts the device
-    * @param {*} request Request passed from the onMessageListener
-    * @param {*} sender Sender passed from the onMessageListener
-    * @returns Nothing
-    */
-    const restartDevice = async function(request, sender) {
-        chrome.runtime.restart();
-        return undefined;
-    }
-
 /**
     * @description Startup function that returns the deviceAssetId and deviceSerialNumber to the message sender
     * @param {*} request Request passed from the onMessageListener
@@ -25,38 +14,56 @@
     * They are a string (double check this) or undefined
     */
     const startup = async function(request, sender) {
-        // Can only run startUp if the extension has the enterprise.deviceAttributes permission
-        /*if (!(await chrome.permissions.contains({ permissions: ['enterprise.deviceAttributes'] }))) {
-            throw new Error("The extension does not have the enterprise.deviceAttributes permission");
-        }*/
-
-            const deviceData = {
-                deviceAssetId: undefined,
-                deviceSerialNumber: undefined
-            };
-
         // NOTE: The chrome.enterprise.deviceAttributes only works if two conditions are met:
         // 1. The device is running ChromeOS
         // 2. The extension is pre-installed by policy
-        try {
-            deviceData.deviceAssetId = await chrome.enterprise.deviceAttributes.getDeviceAssetId();
-            deviceData.deviceSerialNumber = await chrome.enterprise.deviceAttributes.getDeviceSerialNumber();
-        } catch (err) {
-            console.log(err);
-            return { deviceData: undefined, errorMessage: err.message };
-        }
-
-        if (!deviceData.deviceAssetId || !deviceData.deviceSerialNumber) {
-            return { deviceData: undefined, errorMessage: 'deviceAssetId and/or deviceSerialNumber not found through chrome API' };
-        } else {
-            return { deviceData };
-        }
+        
+        // These functions are responsible for sending the deviceAssetId and deviceSerialNumber to the PWA
+        getDeviceAssetId();
+        getSerialNumber();
     }
 
-// Just using this to test the messaging system
-const log = async function(request, sender) {
-    console.log(request.message);
-    return request.message;
+const getDeviceAssetId = async function(request, sender) {
+    try {
+        chrome.enterprise.deviceAttributes.getDeviceAssetId(deviceAssetIdCallback);
+    } catch (err) {
+        sendMessageToPWA({ methodName: 'deviceAssetIdCallback', assetId: undefined, errorMessage: err.message });
+    }
+}
+
+const getSerialNumber = async function(request, sender) {
+    try {
+        chrome.enterprise.deviceAttributes.getDeviceSerialNumber(deviceSerialNumberCallback);
+    } catch (err) {
+        sendMessageToPWA({ methodName: 'deviceSerialNumberCallback', serialNumber: undefined, errorMessage: err.message });
+    }
+}
+
+const deviceAssetIdCallback = async function(assetIdString) {
+    sendMessageToPWA({ methodName: 'deviceAssetIdCallback', assetId: assetIdString });
+}
+
+const deviceSerialNumberCallback = async function(serialNumberString) {
+    sendMessageToPWA({ methodName: 'deviceSerialNumberCallback', serialNumber: serialNumberString });
+}
+
+const restartDevice = async function(request, sender) {
+    // takes a number of seconds to wait before restarting
+    // if -1, the reboot is cancelled
+    // if called again, it is delayed
+    // 60 seconds for now just to ensure it works, after I will set it up to restart at 3 am when called
+    try {
+        chrome.runtime.restartAfterDelay(
+            60,
+            restartCallback
+        )
+    } catch (err) {
+        sendMessageToPWA({ methodName: 'restartCallback', errorMessage: err.message });
+    }
+}
+
+const restartCallback = async function() {
+    sendMessageToPWA({ methodName: 'restartCallback', errorMessage: undefined });
 }
 
 chrome.runtime.onMessage.addListener(
@@ -68,16 +75,17 @@ chrome.runtime.onMessage.addListener(
         let res = undefined;
 
         if (request.methodName === 'startup') {
-            res = await startup(request, sender);
+            startup(request, sender);
         } else if (request.methodName === 'restartDevice') {
-            res = await restartDevice(request, sender);
+            restartDevice(request, sender);
         } else if (request.methodName === 'log') {
             res = await log(request, sender);
         }
-        if (res == undefined) {
-            console.log("req didn't match any of these");
-        }
-        const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-        const response = chrome.tabs.sendMessage(tab.id, res);
+        if (res) sendMessageToPWA(res);
     }
 );
+
+const sendMessageToPWA = async function(message) {
+    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+    const response = chrome.tabs.sendMessage(tab.id, message);
+}
