@@ -92,6 +92,9 @@ die("This should redirect");
 <!-- PLUGINS -->
 <script src="js/keyboard.js"></script>
 
+<!-- EXTENSION -->
+<script src="js/extension-api.js"></script>
+
   <link rel="stylesheet" href="css/all.css">
   <link href="css/bootstrap.css" rel="stylesheet">
   <link rel="stylesheet" href="css/keyboard.css">
@@ -171,6 +174,20 @@ $("form#usersignin").submit(function (e) {
 				},
 		});
 });
+</script>
+<script>
+
+    // Just for testing
+   function deviceDataCb(deviceData, err) {
+        if (err) {
+        alert(err);
+        return;
+        } 
+        alert(deviceData.deviceAssetId + deviceData.deviceSerialNumber);
+    }
+    getDeviceData(deviceDataCb);
+    log("WOWOWOWOW")
+    restart();
 </script>
  </body>
 

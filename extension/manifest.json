@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Yahrzeit Interactive Kiosk Extension",
-  "version": "3.2",
+  "version": "3.2.2",
   "description": "Get's asset id for enterprise progressive web app (PWA)",
 
   "icons": {
@@ -10,16 +10,17 @@
     "128": "images/icon-128.png"
   },
   "offline_enabled": true,
-  "content_scripts": [
-    {
-      "matches": ["https://www.google.com/*", "https://www.yahrzeitinteractive.com/*"],
-      "js": ["scripts/content.js"],
-      "run_at": "document_idle"
-    }
-  ],
   "externally_connectable": {
-    "matches": ["https://www.google.com/*", "https://www.yahrzeitinteractive.com/*"]
+      "accepts_tls_channel_id": false,
+      "matches": [ "https://www.yahrzeitinteractive.com/*", "http://127.0.0.1/*" ]
   },
+  "content_scripts": [
+      {
+          "matches": ["http://127.0.0.1/*", "https://www.yahrzeitinteractive.com/*"],
+          "js": ["scripts/content.js"],
+          "run_at": "document_start"
+      }
+  ],
   "background": {
     "service_worker": "background.js"
   },
